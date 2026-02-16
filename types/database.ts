@@ -71,6 +71,8 @@ export interface Report {
   created_at: string;
 }
 
+export type ReportWithClientName = Report & { client_name: string };
+
 export interface ReportSection {
   id: string;
   client_id: string;
