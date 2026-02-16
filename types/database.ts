@@ -31,11 +31,12 @@ export interface Client {
   logo_url: string | null;
   contact_emails: string[];
   report_schedule: ReportSchedule;
-  report_day: number;
-  report_time: string;
+  report_day: number | null;
+  report_time: string | null;
   timezone: string;
   next_report_at: string | null;
   active: boolean;
+  ai_tone: string;
   created_at: string;
 }
 
@@ -93,3 +94,5 @@ export interface TeamMember {
   invited_at: string;
   joined_at: string | null;
 }
+
+export type ClientWithStats = Client & { report_count: number };

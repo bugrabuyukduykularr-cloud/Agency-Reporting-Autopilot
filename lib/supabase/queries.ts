@@ -1,5 +1,12 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Agency, Client, Report, ReportWithClientName } from "@/types/database";
+import type {
+  Agency,
+  Client,
+  DataConnection,
+  Report,
+  ReportSection,
+  ReportWithClientName,
+} from "@/types/database";
 import type { DashboardStats, ReportStatus } from "@/types/index";
 
 // ---------------------------------------------------------------------------
@@ -157,6 +164,132 @@ export async function getDashboardStats(
     pendingReports: pendingRes.count ?? 0,
     avgOpenRate,
   };
+}
+
+// ---------------------------------------------------------------------------
+// getAllClients — returns all clients (including inactive)
+// ---------------------------------------------------------------------------
+export async function getAllClients(
+  supabase: SupabaseClient,
+  agencyId: string
+): Promise<Client[]> {
+  const { data, error } = await supabase
+    .from("clients")
+    .select("*")
+    .eq("agency_id", agencyId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("[getAllClients]", error.message);
+    return [];
+  }
+  return (data ?? []) as Client[];
+}
+
+// ---------------------------------------------------------------------------
+// getClientById
+// ---------------------------------------------------------------------------
+export async function getClientById(
+  supabase: SupabaseClient,
+  clientId: string
+): Promise<Client | null> {
+  const { data, error } = await supabase
+    .from("clients")
+    .select("*")
+    .eq("id", clientId)
+    .limit(1)
+    .single();
+
+  if (error) {
+    console.error("[getClientById]", error.message);
+    return null;
+  }
+  return data as Client | null;
+}
+
+// ---------------------------------------------------------------------------
+// getClientConnections
+// ---------------------------------------------------------------------------
+export async function getClientConnections(
+  supabase: SupabaseClient,
+  clientId: string
+): Promise<DataConnection[]> {
+  const { data, error } = await supabase
+    .from("data_connections")
+    .select("*")
+    .eq("client_id", clientId);
+
+  if (error) {
+    console.error("[getClientConnections]", error.message);
+    return [];
+  }
+  return (data ?? []) as DataConnection[];
+}
+
+// ---------------------------------------------------------------------------
+// getClientSections
+// ---------------------------------------------------------------------------
+export async function getClientSections(
+  supabase: SupabaseClient,
+  clientId: string
+): Promise<ReportSection[]> {
+  const { data, error } = await supabase
+    .from("report_sections")
+    .select("*")
+    .eq("client_id", clientId)
+    .order("sort_order", { ascending: true });
+
+  if (error) {
+    console.error("[getClientSections]", error.message);
+    return [];
+  }
+  return (data ?? []) as ReportSection[];
+}
+
+// ---------------------------------------------------------------------------
+// getClientReports
+// ---------------------------------------------------------------------------
+export async function getClientReports(
+  supabase: SupabaseClient,
+  clientId: string,
+  limit = 5
+): Promise<Report[]> {
+  const { data, error } = await supabase
+    .from("reports")
+    .select("*")
+    .eq("client_id", clientId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error("[getClientReports]", error.message);
+    return [];
+  }
+  return (data ?? []) as Report[];
+}
+
+// ---------------------------------------------------------------------------
+// getReportCountsByClient
+// ---------------------------------------------------------------------------
+export async function getReportCountsByClient(
+  supabase: SupabaseClient,
+  agencyId: string
+): Promise<Record<string, number>> {
+  const { data, error } = await supabase
+    .from("reports")
+    .select("client_id")
+    .eq("agency_id", agencyId);
+
+  if (error) {
+    console.error("[getReportCountsByClient]", error.message);
+    return {};
+  }
+
+  const rows = (data ?? []) as Array<{ client_id: string }>;
+  return rows.reduce<Record<string, number>>((acc, row) => {
+    acc[row.client_id] = (acc[row.client_id] ?? 0) + 1;
+    return acc;
+  }, {});
 }
 
 // Re-export Report type helper for consumers that only import from queries
