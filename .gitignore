@@ -9,6 +9,11 @@ __pycache__/
 .env.local
 .env.*.local
 
+# Next.js
+/.next/
+/out/
+next-env.d.ts
+
 # IDE
 .vscode/
 .idea/
@@ -26,3 +31,9 @@ build/
 
 # Logs
 *.log
+
+# Vercel
+.vercel
+
+# Debug
+npm-debug.log*
