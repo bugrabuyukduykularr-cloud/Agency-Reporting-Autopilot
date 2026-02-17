@@ -19,6 +19,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { ConnectionsTab } from "@/components/clients/connections-tab";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -53,6 +54,7 @@ interface ClientDetailTabsProps {
   connections: DataConnection[];
   sections: ReportSection[];
   recentReports: Report[];
+  agencyId: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -102,6 +104,7 @@ export function ClientDetailTabs({
   connections,
   sections,
   recentReports,
+  agencyId,
 }: ClientDetailTabsProps) {
   const router = useRouter();
   const { toast } = useToast();
@@ -419,32 +422,11 @@ export function ClientDetailTabs({
           TAB 2 — Connections
       ==================================================================== */}
       <TabsContent value="connections" className="mt-6">
-        <div className="space-y-3">
-          {(
-            [
-              "Google Analytics 4",
-              "Meta Ads",
-              "LinkedIn Ads",
-            ] as const
-          ).map((platformName) => (
-            <div
-              key={platformName}
-              className="bg-white flex items-center justify-between p-4 rounded-xl border border-[#E2E8F0]"
-            >
-              <div>
-                <p className="text-sm font-medium text-slate-800">
-                  {platformName}
-                </p>
-                <p className="text-xs text-slate-400">
-                  Connection built in Section 5
-                </p>
-              </div>
-              <Badge variant="outline" className="text-slate-500">
-                Coming Soon
-              </Badge>
-            </div>
-          ))}
-        </div>
+        <ConnectionsTab
+          client={client}
+          connections={connections}
+          agencyId={agencyId}
+        />
       </TabsContent>
 
       {/* ===================================================================

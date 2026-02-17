@@ -41,6 +41,7 @@ export default async function ClientDetailPage({
           connections={connections}
           sections={sections}
           recentReports={recentReports}
+          agencyId={agency.id}
         />
       </div>
     </div>
