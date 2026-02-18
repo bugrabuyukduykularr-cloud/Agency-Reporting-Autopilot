@@ -52,7 +52,7 @@ export async function GET(request: Request) {
   const agencyId = client.agency_id as string;
 
   const { data: member } = await supabase
-    .from("agency_members")
+    .from("team_members")
     .select("id")
     .eq("agency_id", agencyId)
     .eq("user_id", user.id)

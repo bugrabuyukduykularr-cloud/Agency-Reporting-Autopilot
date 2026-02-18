@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Play, ChevronLeft } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EditClientDialog } from "@/components/clients/edit-client-dialog";
+import { GenerateButton } from "@/components/reports/generate-button";
 import { getAvatarColor, getInitials } from "@/lib/utils";
 import type { Client } from "@/types/database";
 
@@ -68,14 +69,7 @@ export function ClientDetailHeader({ client }: ClientDetailHeaderProps) {
           >
             Edit Client
           </Button>
-          <Button
-            className="bg-[#0F172A] hover:bg-[#1e293b] text-white"
-            disabled
-            title="Coming in Section 6"
-          >
-            <Play className="mr-2 h-4 w-4" />
-            Generate Report
-          </Button>
+          <GenerateButton clientId={client.id} clientName={client.name} />
         </div>
       </div>
 
