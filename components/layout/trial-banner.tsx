@@ -53,7 +53,8 @@ export function TrialBanner({ trialEndsAt, plan }: TrialBannerProps) {
       <div className="flex items-center gap-3 ml-4 shrink-0">
         <Link
           href="/upgrade"
-          className="rounded-md bg-blue-600 px-3 py-1 text-xs font-medium text-white hover:bg-blue-700"
+          className="rounded-md px-3 py-1 text-xs font-medium text-white"
+          style={{ backgroundColor: "#FF6B35" }}
         >
           Upgrade now
         </Link>

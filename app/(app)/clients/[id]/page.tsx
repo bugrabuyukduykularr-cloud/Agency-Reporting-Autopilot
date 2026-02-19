@@ -33,7 +33,7 @@ export default async function ClientDetailPage({
   ]);
 
   return (
-    <div className="p-6 max-w-5xl">
+    <div className="mx-auto max-w-[1280px] px-6 py-8">
       <ClientDetailHeader client={client} />
       <div className="mt-8">
         <ClientDetailTabs

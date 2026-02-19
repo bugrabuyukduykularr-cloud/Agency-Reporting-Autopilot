@@ -42,8 +42,10 @@ export default async function SettingsPage() {
   });
 
   return (
-    <div className="p-6 max-w-4xl">
-      <h1 className="text-2xl font-bold text-slate-900 mb-6">Settings</h1>
+    <div className="mx-auto max-w-[1280px] px-6 py-8">
+      <h1 className="text-[28px] font-bold mb-6" style={{ color: "#2D3748" }}>
+        Settings
+      </h1>
       <SettingsTabs
         agency={agency}
         teamMembers={memberDetails}

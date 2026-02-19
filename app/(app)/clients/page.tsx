@@ -28,12 +28,19 @@ export default async function ClientsPage() {
   const agencyId = agency?.id ?? "";
 
   return (
-    <div className="p-6">
+    <div className="mx-auto max-w-[1280px] px-6 py-8">
       {/* Page Header */}
       <div className="flex justify-between items-start mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Clients</h1>
-          <p className="mt-1 text-slate-500">Manage your client accounts</p>
+          <h1
+            className="text-[28px] font-bold"
+            style={{ color: "#2D3748" }}
+          >
+            Clients
+          </h1>
+          <p className="mt-1 text-[15px]" style={{ color: "#718096" }}>
+            Manage your client accounts
+          </p>
         </div>
         <AddClientButton agencyId={agencyId} />
       </div>
@@ -41,11 +48,14 @@ export default async function ClientsPage() {
       {/* Content */}
       {clientsWithStats.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
-          <Users className="h-16 w-16 text-slate-300 mb-4" />
-          <h2 className="text-xl font-semibold text-slate-700 mb-2">
+          <Users className="h-16 w-16 mb-4" style={{ color: "#E8EBED" }} />
+          <h2
+            className="text-xl font-semibold mb-2"
+            style={{ color: "#2D3748" }}
+          >
             No clients yet
           </h2>
-          <p className="text-slate-500 mb-6 max-w-sm">
+          <p className="mb-6 max-w-sm text-sm" style={{ color: "#718096" }}>
             Add your first client to start generating automated reports.
           </p>
           <AddClientButton agencyId={agencyId} label="Add Your First Client" />

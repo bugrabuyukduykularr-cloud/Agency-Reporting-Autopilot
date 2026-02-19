@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import type { ReportStatus } from "@/types/index";
 
 interface StatusBadgeProps {
@@ -7,33 +6,41 @@ interface StatusBadgeProps {
 
 const statusConfig: Record<
   ReportStatus,
-  { label: string; className: string }
+  { label: string; bg: string; text: string }
 > = {
   sent: {
-    label: "Sent",
-    className:
-      "border-green-300 bg-green-50 text-green-700 hover:bg-green-50",
+    label: "Delivered",
+    bg: "#F0FFF4",
+    text: "#48BB78",
   },
   generating: {
     label: "Generating",
-    className: "border-blue-300 bg-blue-50 text-blue-700 hover:bg-blue-50",
+    bg: "#FFF4F0",
+    text: "#FF6B35",
   },
   ready: {
     label: "Ready",
-    className:
-      "border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-50",
+    bg: "#FFF4F0",
+    text: "#FF6B35",
   },
   failed: {
     label: "Failed",
-    className: "border-red-300 bg-red-50 text-red-700 hover:bg-red-50",
+    bg: "#FFF5F5",
+    text: "#F56565",
   },
 };
 
 export function StatusBadge({ status }: StatusBadgeProps) {
   const config = statusConfig[status];
   return (
-    <Badge variant="outline" className={config.className}>
+    <span
+      className="inline-flex items-center rounded px-2 py-0.5 text-xs font-medium"
+      style={{
+        backgroundColor: config.bg,
+        color: config.text,
+      }}
+    >
       {config.label}
-    </Badge>
+    </span>
   );
 }

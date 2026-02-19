@@ -2,11 +2,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardLoading() {
   return (
-    <div className="p-6">
+    <div className="mx-auto max-w-[1280px] px-6 py-8">
       {/* Header skeleton */}
-      <div className="mb-7">
+      <div className="mb-8">
         <Skeleton className="h-8 w-48 mb-2" />
-        <Skeleton className="h-4 w-64" />
+        <Skeleton className="h-4 w-72" />
       </div>
 
       {/* Stats skeleton */}
@@ -14,34 +14,36 @@ export default function DashboardLoading() {
         {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={i}
-            className="bg-white rounded-xl border border-[#E2E8F0] shadow-sm p-5"
+            className="rounded-lg border p-5"
+            style={{ backgroundColor: "#FFFFFF", borderColor: "#E8EBED" }}
           >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <Skeleton className="h-4 w-28 mb-3" />
-                <Skeleton className="h-8 w-16 mb-2" />
-                <Skeleton className="h-3 w-20" />
-              </div>
-              <Skeleton className="h-10 w-10 rounded-lg" />
-            </div>
+            <Skeleton className="h-3 w-24 mb-3" />
+            <Skeleton className="h-8 w-14 mb-2" />
+            <Skeleton className="h-3 w-20" />
           </div>
         ))}
       </div>
 
       {/* Table skeleton */}
-      <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-sm">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-          <Skeleton className="h-6 w-36" />
+      <div
+        className="rounded-lg border"
+        style={{ backgroundColor: "#FFFFFF", borderColor: "#E8EBED" }}
+      >
+        <div
+          className="flex items-center justify-between px-6 py-4 border-b"
+          style={{ borderColor: "#E8EBED" }}
+        >
+          <Skeleton className="h-5 w-32" />
           <Skeleton className="h-4 w-16" />
         </div>
-        <div className="p-6 space-y-3">
+        <div className="px-6 py-4 space-y-4">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="flex items-center gap-4">
-              <Skeleton className="h-4 w-36" />
+            <div key={i} className="flex items-center gap-6">
+              <Skeleton className="h-4 w-32" />
               <Skeleton className="h-4 w-20" />
-              <Skeleton className="h-6 w-16 rounded-full" />
-              <Skeleton className="h-4 w-24" />
-              <Skeleton className="h-7 w-12 ml-auto" />
+              <Skeleton className="h-5 w-16 rounded" />
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-6 w-10 ml-auto" />
             </div>
           ))}
         </div>

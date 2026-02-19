@@ -45,7 +45,7 @@ export default function UpgradePage() {
   ][];
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="mx-auto max-w-[1280px] px-6 py-8">
       {canceled && (
         <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
           Checkout was canceled. Choose a plan whenever you&apos;re ready.
@@ -54,24 +54,27 @@ export default function UpgradePage() {
 
       {/* Hero */}
       <div className="text-center mb-10">
-        <h1 className="text-3xl font-bold text-slate-900">
+        <h1 className="text-3xl font-bold" style={{ color: "#2D3748" }}>
           Choose Your Plan
         </h1>
-        <p className="mt-2 text-slate-500">
+        <p className="mt-2" style={{ color: "#718096" }}>
           Start with a 14-day free trial. No credit card required.
         </p>
       </div>
 
       {/* Toggle */}
       <div className="flex justify-center mb-8">
-        <div className="inline-flex items-center gap-1 rounded-lg bg-slate-100 p-1">
+        <div
+          className="inline-flex items-center gap-1 rounded-lg p-1"
+          style={{ backgroundColor: "#F7F8F9" }}
+        >
           <button
             onClick={() => setInterval("monthly")}
             className={cn(
               "rounded-md px-4 py-2 text-sm font-medium transition-colors",
               interval === "monthly"
-                ? "bg-white text-slate-900 shadow-sm"
-                : "text-slate-500 hover:text-slate-700"
+                ? "bg-white text-[#2D3748] shadow-sm"
+                : "text-[#718096] hover:text-[#2D3748]"
             )}
           >
             Monthly
@@ -81,12 +84,12 @@ export default function UpgradePage() {
             className={cn(
               "rounded-md px-4 py-2 text-sm font-medium transition-colors",
               interval === "annual"
-                ? "bg-white text-slate-900 shadow-sm"
-                : "text-slate-500 hover:text-slate-700"
+                ? "bg-white text-[#2D3748] shadow-sm"
+                : "text-[#718096] hover:text-[#2D3748]"
             )}
           >
             Annual
-            <span className="ml-1.5 text-xs text-green-600 font-semibold">
+            <span className="ml-1.5 text-xs font-semibold" style={{ color: "#48BB78" }}>
               Save 17%
             </span>
           </button>
@@ -114,9 +117,8 @@ export default function UpgradePage() {
       </div>
 
       {/* Footer note */}
-      <p className="mt-8 text-center text-xs text-slate-400">
-        All plans include a 14-day free trial. Cancel anytime.
-        Prices shown in USD.
+      <p className="mt-8 text-center text-xs" style={{ color: "#718096" }}>
+        All plans include a 14-day free trial. Cancel anytime. Prices shown in USD.
       </p>
     </div>
   );

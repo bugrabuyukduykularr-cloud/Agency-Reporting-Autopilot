@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { getAgency } from "@/lib/supabase/queries";
-import { Sidebar } from "@/components/layout/sidebar";
-import { MobileHeader } from "@/components/layout/mobile-header";
+import { TopNav } from "@/components/layout/top-nav";
 import { TrialBanner } from "@/components/layout/trial-banner";
 
 export default async function AppLayout({
@@ -21,39 +20,16 @@ export default async function AppLayout({
     user?.email?.split("@")[0] ??
     "User";
   const userEmail = user?.email ?? "";
-  const userAvatar =
-    (user?.user_metadata?.avatar_url as string | undefined) ?? null;
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50">
-      {/* Desktop sidebar */}
-      <Sidebar
-        agency={agency}
-        userName={fullName}
-        userEmail={userEmail}
-        userAvatar={userAvatar}
-      />
+    <div className="min-h-screen" style={{ backgroundColor: "#FAFBFC" }}>
+      <TopNav agency={agency} userName={fullName} userEmail={userEmail} />
 
-      {/* Main content area */}
-      <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
-        {/* Mobile header (hamburger + drawer) */}
-        <MobileHeader
-          agency={agency}
-          userName={fullName}
-          userAvatar={userAvatar}
-        />
+      {agency?.plan === "trial" && agency.trial_ends_at && (
+        <TrialBanner trialEndsAt={agency.trial_ends_at} plan={agency.plan} />
+      )}
 
-        {/* Trial warning banner */}
-        {agency?.plan === "trial" && agency.trial_ends_at && (
-          <TrialBanner
-            trialEndsAt={agency.trial_ends_at}
-            plan={agency.plan}
-          />
-        )}
-
-        {/* Page content */}
-        <main className="flex-1 overflow-y-auto">{children}</main>
-      </div>
+      <main>{children}</main>
     </div>
   );
 }

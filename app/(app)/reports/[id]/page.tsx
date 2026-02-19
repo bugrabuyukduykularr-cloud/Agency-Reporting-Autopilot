@@ -98,7 +98,7 @@ export default async function ReportDetailPage({
   const rawData = report.raw_data as unknown as UnifiedReportData | null;
 
   return (
-    <div className="p-6 max-w-5xl">
+    <div className="mx-auto max-w-[1280px] px-6 py-8">
       {/* Breadcrumb */}
       <Link
         href="/reports"
