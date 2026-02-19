@@ -23,15 +23,28 @@ import type { AITone } from "@/types/ai-commentary";
  *   5. Update report status to ready
  */
 export async function POST(request: Request) {
-  const supabase = createClient();
+  // ── Auth — support both browser session and service-role key ─────────────
+  const serviceKey = request.headers.get("Authorization")?.replace("Bearer ", "");
+  const isServiceRole =
+    serviceKey && serviceKey === process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  // ── Auth ─────────────────────────────────────────────────────────────────
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  let supabase;
+  if (isServiceRole) {
+    // Cron / internal call — use service-role client
+    supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      { cookies: { getAll: () => [], setAll: () => {} } }
+    );
+  } else {
+    // Browser call — use cookie-based auth
+    supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
   }
 
   // ── Parse body ───────────────────────────────────────────────────────────
@@ -51,7 +64,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Missing clientId" }, { status: 400 });
   }
 
-  // ── Verify membership ────────────────────────────────────────────────────
+  // ── Fetch client ───────────────────────────────────────────────────────
   const { data: client } = await supabase
     .from("clients")
     .select("id, agency_id, name, ai_tone")
@@ -66,15 +79,22 @@ export async function POST(request: Request) {
   const clientName = client.name as string;
   const aiTone = (client.ai_tone as AITone) ?? "professional";
 
-  const { data: member } = await supabase
-    .from("team_members")
-    .select("id")
-    .eq("agency_id", agencyId)
-    .eq("user_id", user.id)
-    .single();
+  // ── Verify membership (skip for service-role) ──────────────────────────
+  if (!isServiceRole) {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  if (!member) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    const { data: member } = await supabase
+      .from("team_members")
+      .select("id")
+      .eq("agency_id", agencyId)
+      .eq("user_id", user!.id)
+      .single();
+
+    if (!member) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
   }
 
   // ── Date ranges ──────────────────────────────────────────────────────────

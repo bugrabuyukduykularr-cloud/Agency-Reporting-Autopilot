@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ReportTabs } from "@/components/reports/report-tabs";
 import { ExternalLink, Download, ChevronLeft } from "lucide-react";
+import { ResendButton } from "@/components/reports/resend-button";
 import type { ReportCommentary } from "@/types/ai-commentary";
 import type { UnifiedReportData } from "@/types/report-data";
 
@@ -123,6 +124,9 @@ export default async function ReportDetailPage({
         </div>
 
         <div className="flex gap-2">
+          {(status === "ready" || status === "sent") && (
+            <ResendButton reportId={params.id} />
+          )}
           {pdfUrl && (
             <>
               <Button variant="outline" asChild>
